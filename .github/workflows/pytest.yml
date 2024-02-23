@@ -3,9 +3,6 @@ name: pytest
 on:
   pull_request:
     types: [opened, reopened, synchronize]
-  push:
-    branch:
-      main
 
 jobs:
   ruff:
