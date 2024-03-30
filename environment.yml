@@ -7,6 +7,9 @@ channels:
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=2_gnu
+  - absl-py=1.4.0=py311h06a4308_0
+  - aiohttp=3.9.3=py311h5eee18b_0
+  - aiosignal=1.2.0=pyhd3eb1b0_0
   - alsa-lib=1.2.8=h166bdaf_0
   - anyio=4.2.0=py311h06a4308_0
   - aom=3.5.0=h27087fc_0
@@ -20,18 +23,21 @@ dependencies:
   - beautifulsoup4=4.12.2=py311h06a4308_0
   - blas=1.0=mkl
   - bleach=4.1.0=pyhd3eb1b0_0
+  - blinker=1.6.2=py311h06a4308_0
   - brotli=1.0.9=h5eee18b_7
   - brotli-bin=1.0.9=h5eee18b_7
   - brotli-python=1.0.9=py311h6a678d5_7
   - bzip2=1.0.8=h5eee18b_5
   - c-ares=1.27.0=hd590300_0
-  - ca-certificates=2024.2.2=hbcca054_0
+  - ca-certificates=2024.3.11=h06a4308_0
   - cachecontrol=0.12.11=py311h06a4308_1
+  - cachetools=4.2.2=pyhd3eb1b0_0
   - cairo=1.16.0=ha61ee94_1014
-  - certifi=2024.2.2=pyhd8ed1ab_0
+  - certifi=2024.2.2=py311h06a4308_0
   - cffi=1.16.0=py311h5eee18b_0
   - charset-normalizer=2.0.4=pyhd3eb1b0_0
   - cleo=2.1.0=py311h06a4308_0
+  - click=8.1.7=py311h06a4308_0
   - colorama=0.4.6=pyhd8ed1ab_0
   - comm=0.2.1=py311h06a4308_0
   - contourpy=1.2.0=py311hdb19cb5_0
@@ -67,6 +73,7 @@ dependencies:
   - fonttools=4.25.0=pyhd3eb1b0_0
   - freeglut=3.2.2=h9c3ff4c_1
   - freetype=2.12.1=h4a9f257_0
+  - frozenlist=1.4.0=py311h5eee18b_0
   - fsspec=2024.3.0=pyhca7485f_0
   - gettext=0.21.1=h27087fc_0
   - glib=2.78.4=h6a678d5_0
@@ -74,7 +81,10 @@ dependencies:
   - gmp=6.2.1=h295c915_3
   - gmpy2=2.1.2=py311hc9b5ff0_0
   - gnutls=3.7.9=hb077bed_0
+  - google-auth=2.22.0=py311h06a4308_0
+  - google-auth-oauthlib=0.5.2=py311h06a4308_0
   - graphite2=1.3.13=h58526e2_1001
+  - grpcio=1.54.3=py311hcafe171_0
   - gst-plugins-base=1.22.0=h4243ec0_2
   - gstreamer=1.22.0=h25f0c4b_2
   - gstreamer-orc=0.4.38=hd590300_0
@@ -118,6 +128,7 @@ dependencies:
   - lcms2=2.12=h3be6417_0
   - ld_impl_linux-64=2.38=h1181459_1
   - lerc=3.0=h295c915_0
+  - libabseil=20230125.3=cxx17_h59595ed_0
   - libaec=1.1.2=h59595ed_1
   - libblas=3.9.0=1_h86c2bf4_netlib
   - libbrotlicommon=1.0.9=h5eee18b_7
@@ -152,6 +163,7 @@ dependencies:
   - libglu=9.0.0=he1b5a44_1001
   - libgomp=13.2.0=h807b86a_5
   - libgpg-error=1.48=h71f35ed_0
+  - libgrpc=1.54.3=hb20ce57_0
   - libiconv=1.17=hd590300_2
   - libidn2=2.3.4=h5eee18b_0
   - libjpeg-turbo=2.0.0=h9bf148f_0
@@ -196,6 +208,7 @@ dependencies:
   - llvm-openmp=14.0.6=h9e868ea_0
   - lockfile=0.12.2=py311h06a4308_0
   - lz4-c=1.9.4=h6a678d5_0
+  - markdown=3.4.1=py311h06a4308_0
   - markupsafe=2.1.3=py311h5eee18b_0
   - matplotlib=3.8.0=py311h06a4308_0
   - matplotlib-base=3.8.0=py311ha02d727_0
@@ -211,6 +224,7 @@ dependencies:
   - mpg123=1.32.4=h59595ed_0
   - mpmath=1.3.0=py311h06a4308_0
   - msgpack-python=1.0.3=py311hdb19cb5_0
+  - multidict=6.0.4=py311h5eee18b_0
   - munkres=1.1.4=py_0
   - mysql=5.7.24=h721c034_2
   - mysql-common=8.0.33=hf1915f5_6
@@ -228,6 +242,7 @@ dependencies:
   - nss=3.98=h1d7d5a4_0
   - numpy=1.26.4=py311h08b1b3b_0
   - numpy-base=1.26.4=py311hf175353_0
+  - oauthlib=3.2.2=py311h06a4308_0
   - opencv=4.7.0=py311h38be061_1
   - openh264=2.3.1=hcb278e6_2
   - openjpeg=2.4.0=h3ad879b_0
@@ -250,6 +265,7 @@ dependencies:
   - prometheus_client=0.14.1=py311h06a4308_0
   - prompt-toolkit=3.0.43=py311h06a4308_0
   - prompt_toolkit=3.0.43=hd3eb1b0_0
+  - protobuf=4.21.12=py311hcafe171_0
   - psutil=5.9.0=py311h5eee18b_0
   - pthread-stubs=0.4=h36c2ea0_1001
   - ptyprocess=0.7.0=pyhd3eb1b0_2
@@ -258,8 +274,11 @@ dependencies:
   - pulseaudio-daemon=16.1=ha8d29e2_3
   - pure_eval=0.2.2=pyhd3eb1b0_0
   - py-opencv=4.7.0=py311h781c19f_1
+  - pyasn1=0.4.8=pyhd3eb1b0_0
+  - pyasn1-modules=0.2.8=py_0
   - pycparser=2.21=pyhd3eb1b0_0
   - pygments=2.15.1=py311h06a4308_1
+  - pyjwt=2.4.0=py311h06a4308_0
   - pyopenssl=24.0.0=py311h06a4308_0
   - pyparsing=3.0.9=py311h06a4308_0
   - pyproject_hooks=1.0.0=py311h06a4308_0
@@ -284,13 +303,16 @@ dependencies:
   - qtconsole=5.5.1=py311h06a4308_0
   - qtpy=2.4.1=py311h06a4308_0
   - rapidfuzz=3.5.2=py311h6a678d5_0
+  - re2=2023.03.02=h8c504da_0
   - readline=8.2=h5eee18b_0
   - referencing=0.30.2=py311h06a4308_0
   - requests=2.31.0=py311h06a4308_1
+  - requests-oauthlib=1.3.0=py_0
   - requests-toolbelt=0.9.1=pyhd3eb1b0_0
   - rfc3339-validator=0.1.4=py311h06a4308_0
   - rfc3986-validator=0.1.1=py311h06a4308_0
   - rpds-py=0.10.6=py311hb02cf49_0
+  - rsa=4.7.2=pyhd3eb1b0_1
   - secretstorage=3.3.1=py311h06a4308_1
   - send2trash=1.8.2=py311h06a4308_0
   - setuptools=68.2.2=py311h06a4308_0
@@ -304,6 +326,9 @@ dependencies:
   - svt-av1=1.4.1=hcb278e6_0
   - sympy=1.12=py311h06a4308_0
   - tbb=2021.8.0=hdb19cb5_0
+  - tensorboard=2.12.1=py311h06a4308_0
+  - tensorboard-data-server=0.7.0=py311h52d8a92_0
+  - tensorboard-plugin-wit=1.6.0=py_0
   - terminado=0.17.1=py311h06a4308_0
   - tinycss2=1.2.1=py311h06a4308_0
   - tk=8.6.13=noxft_h4845f30_101
@@ -325,6 +350,7 @@ dependencies:
   - wcwidth=0.2.5=pyhd3eb1b0_0
   - webencodings=0.5.1=py311h06a4308_1
   - websocket-client=0.58.0=py311h06a4308_4
+  - werkzeug=2.3.8=py311h06a4308_0
   - wheel=0.41.2=py311h06a4308_0
   - widgetsnbextension=4.0.10=py311h06a4308_0
   - x264=1!164.3095=h166bdaf_2
@@ -352,6 +378,7 @@ dependencies:
   - xorg-xproto=7.0.31=h7f98852_1007
   - xz=5.4.6=h5eee18b_0
   - yaml=0.2.5=h7b6447c_0
+  - yarl=1.9.3=py311h5eee18b_0
   - zeromq=4.3.5=h6a678d5_0
   - zipp=3.17.0=py311h06a4308_0
   - zlib=1.2.13=hd590300_5
