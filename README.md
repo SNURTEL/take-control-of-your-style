@@ -7,15 +7,16 @@ Description goes here.
 #### Prerequisites  
 
 - Python >=3.11
-- `poetry`
+- `conda`
 
 #### Install
 
 ```shell
+conda env create --name zprp --file=environment.yml
 poetry install [--no-dev]
 ```
 
-This will install project dependencies plus (if `--no-dev` was not passed) some extra tools - `ruff`, `mypy`, `pytest`, etc.
+This will re-create the conda environment (mostly `pytorch` related dependencies) and install other project deps plus some extra tools - `ruff`, `mypy`, `pytest`, etc. (if `--no-dev` was not passed).
 
 #### Run tests
 
@@ -24,6 +25,9 @@ poetry run pytest -v
 ```
 
 ## Contributing
+
+**NOTE** - when adding dependencies to the project, try to maximize the use of `poetry` - we don't want to rely on `conda` in anything that is not strictly `pytorch` or CUDA related.
+
 
 Before submitting a PR:
 
