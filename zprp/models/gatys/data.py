@@ -38,11 +38,7 @@ class GatysDataset(Dataset):
 
 
 class GatysDataModule(pl.LightningDataModule):
-    """Dummy two-image pl.LightningDataModule to use with Gatys' neural style transfer alghoritm
-
-    Args:
-        pl: _description_
-    """
+    """Dummy two-image pl.LightningDataModule to use with Gatys' neural style transfer alghoritm"""
 
     def __init__(
         self,
