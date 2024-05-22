@@ -11,8 +11,8 @@ from zprp.models.gatys.extractor import FeatureMapExtractor, FeatureMaps, VGG19F
 
 
 class GatysNSTLoss(nn.Module):
-    """Loss function for Gatys' neural style transfer alghoritm.
-    """
+    """Loss function for Gatys' neural style transfer alghoritm."""
+
     class LossDict(NamedTuple):
         total: torch.Tensor
         total_unweighted: torch.Tensor
@@ -63,7 +63,9 @@ class GatysNSTLoss(nn.Module):
         Returns:
             Content loss value
         """
-        loss = [F.mse_loss(getattr(self, f"con_target_{i}"), p, reduction="sum") for i, p in enumerate(pred_feature_map)]
+        loss = [
+            F.mse_loss(getattr(self, f"con_target_{i}"), p, reduction="sum") for i, p in enumerate(pred_feature_map)
+        ]
         avg_loss = torch.mean(torch.stack(loss), dim=0)
         return avg_loss
 
@@ -110,6 +112,7 @@ class GatysNST(pl.LightningModule):
     """Implementation of the original neural style transfer alghoritm by Gatys et. al.
     https://arxiv.org/abs/1508.06576
     """
+
     def __init__(
         self,
         content_img: torch.Tensor,

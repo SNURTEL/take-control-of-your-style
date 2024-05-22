@@ -9,8 +9,8 @@ from torch.utils.data import DataLoader, Dataset
 
 
 class GatysDataset(Dataset):
-    """Dummy two-image dataset to use with Gatys' neural style transfer alghoritm
-    """
+    """Dummy two-image dataset to use with Gatys' neural style transfer alghoritm"""
+
     def __init__(
         self,
         content_path: Path | str,
@@ -43,6 +43,7 @@ class GatysDataModule(pl.LightningDataModule):
     Args:
         pl: _description_
     """
+
     def __init__(
         self,
         content_path: Path | str,
@@ -69,6 +70,5 @@ class GatysDataModule(pl.LightningDataModule):
         self.train = GatysDataset(transforms=self.transforms, content_path=content_path, style_path=style_path)
 
     def train_dataloader(self) -> DataLoader:
-        """Get the train dataloader
-        """
+        """Get the train dataloader"""
         return DataLoader(self.train, batch_size=1, shuffle=False, num_workers=1, pin_memory=True)
