@@ -9,12 +9,21 @@ from torch.utils.data import DataLoader, Dataset
 
 
 class GatysDataset(Dataset):
+    """Dummy two-image dataset to use with Gatys' neural style transfer alghoritm
+    """
     def __init__(
         self,
         content_path: Path | str,
         style_path: Path | str,
         transforms: Callable[[Any], Any] | None = None,
     ):
+        """Init the dataset
+
+        Args:
+            content_path: Content image path
+            style_path: Style image path
+            transforms: Additional image transforms
+        """
         super().__init__()
 
         transforms = transforms or (lambda x: x)
@@ -29,12 +38,24 @@ class GatysDataset(Dataset):
 
 
 class GatysDataModule(pl.LightningDataModule):
+    """Dummy two-image pl.LightningDataModule to use with Gatys' neural style transfer alghoritm
+
+    Args:
+        pl: _description_
+    """
     def __init__(
         self,
         content_path: Path | str,
         style_path: Path | str,
         img_size: int | None = None,
     ) -> None:
+        """Init the DataModule
+
+        Args:
+            content_path: Content image path
+            style_path: Style image path
+            img_size: Target image size. If none, the original image will not be resized.
+        """
         super().__init__()
 
         self.transforms = T.Compose(
@@ -48,4 +69,6 @@ class GatysDataModule(pl.LightningDataModule):
         self.train = GatysDataset(transforms=self.transforms, content_path=content_path, style_path=style_path)
 
     def train_dataloader(self) -> DataLoader:
+        """Get the train dataloader
+        """
         return DataLoader(self.train, batch_size=1, shuffle=False, num_workers=1, pin_memory=True)

@@ -13,13 +13,30 @@ class FeatureMaps(NamedTuple):
 
 
 class FeatureMapExtractor(nn.Module, ABC):
+    """Abstract feature map extractor for Gatys' neural style transfer alghoritm
+    """
+
     @abstractmethod
     def forward(self, x: torch.Tensor) -> FeatureMaps:
+        """Compute the feature maps of the given image tensor
+
+        Args:
+            x: Input tensor
+
+        Returns:
+            Content and style feature maps
+        """
         ...
 
 
 class VGG19FeatureMapExtractor(FeatureMapExtractor):
+    """VGG19-based feature map extractor from the original paper
+    Content feature maps are extracted from 2nd conv layer in 4th VGG19 block
+    Style feature maps are extracted from the first conv layer in each VGG19 block
+    """
     def __init__(self) -> None:
+        """Init the extractor
+        """
         super().__init__()
 
         # As in original paper, use:
@@ -42,6 +59,14 @@ class VGG19FeatureMapExtractor(FeatureMapExtractor):
                 self.vgg19[i] = nn.ReLU(inplace=False)
 
     def forward(self, x: torch.Tensor) -> FeatureMaps:
+        """Compute the feature maps of the given image tensor
+
+        Args:
+            x: Input tensor
+
+        Returns:
+            Content and style feature maps
+        """
         content_feature_maps = []
         style_feature_maps = []
 
