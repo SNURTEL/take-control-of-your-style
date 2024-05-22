@@ -5,10 +5,10 @@ description = ""
 authors = [
     "Patryk Filip Gryz <pfgryz@gmail.com>",
     "Tomasz Owienko <tomek.owienko@gmail.com>",
-    "Wojciech Zarzecki <wojciechzarzecki5@gmail.com>"
+    "Wojciech Zarzecki <wojciechzarzecki5@gmail.com>",
 ]
 readme = "README.md"
-packages = [{include = "zprp"}]
+packages = [{ include = "zprp" }]
 
 [tool.poetry.dependencies]
 python = ">=3.11,<4.0"
@@ -36,6 +36,7 @@ check_untyped_defs = "True"
 warn_return_any = "True"
 warn_unused_ignores = "True"
 show_error_codes = "True"
+ignore_missing_imports = "True"
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
@@ -98,4 +99,3 @@ skip-magic-trailing-comma = false
 
 # Like Black, automatically detect the appropriate line ending.
 line-ending = "auto"
-
