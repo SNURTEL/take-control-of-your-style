@@ -383,15 +383,4 @@ dependencies:
   - zipp=3.17.0=py311h06a4308_0
   - zlib=1.2.13=hd590300_5
   - zstd=1.5.5=hc292b87_0
-  - pip:
-      - coverage==7.4.3
-      - iniconfig==2.0.0
-      - mypy==1.8.0
-      - mypy-extensions==1.0.0
-      - packaging==23.2
-      - pluggy==1.4.0
-      - pytest==8.0.1
-      - pytest-cov==4.1.0
-      - ruff==0.2.2
-      - zprp==0.1.0
 prefix: /home/tomek/miniconda3/envs/zprp

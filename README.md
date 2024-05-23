@@ -13,6 +13,8 @@ Description goes here.
 
 ```shell
 conda env create --name zprp --file=environment.yml
+conda activate zprp
+poetry config --local virtualenvs.create false  # make poetry install packages to conda venv
 poetry install [--no-dev]
 ```
 
