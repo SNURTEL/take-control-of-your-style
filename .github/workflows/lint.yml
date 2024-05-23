@@ -41,12 +41,9 @@ jobs:
         python-version: "3.11"
     - uses: conda-incubator/setup-miniconda@v3
       with:
-        environment-file: environment_dummy.yml
+        environment-file: environment.yml
         activate-environment: test
         auto-activate-base: false
-    - name: Print python executable
-      run: |
-        python3 -c "import sys;print(sys.executable)"
     - name: Install poetry
       run: |
         python3 -m pip install --upgrade pip
