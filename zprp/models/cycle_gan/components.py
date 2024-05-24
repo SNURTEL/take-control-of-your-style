@@ -3,14 +3,21 @@ from torch import Tensor
 
 
 class ResidualBlock(nn.Module):
-    def __init__(self, channels: int) -> None:
+    """A naive residual block. Creates a skip connection between itself and the previous block on the graph."""
+
+    def __init__(self, n_channels: int) -> None:
+        """Init the module.
+
+        Args:
+            n_channels: Number of channels to pass through.
+        """
         super(ResidualBlock, self).__init__()
         self.block = nn.Sequential(
-            nn.Conv2d(channels, channels, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.InstanceNorm2d(channels),
+            nn.Conv2d(n_channels, n_channels, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.InstanceNorm2d(n_channels),
             nn.ReLU(True),
-            nn.Conv2d(channels, channels, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.InstanceNorm2d(channels),
+            nn.Conv2d(n_channels, n_channels, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.InstanceNorm2d(n_channels),
         )
 
     def forward(self, x: Tensor) -> Tensor:
@@ -18,9 +25,13 @@ class ResidualBlock(nn.Module):
 
 
 class Generator(nn.Module):
-    """U-net like"""
+    """
+    U-net like generator model. Downsamples the input, passes the latent vector through
+    subsequent residual blocks and scales it back up.
+    """
 
     def __init__(self) -> None:
+        """Init the generator"""
         super(Generator, self).__init__()
         self.main = nn.Sequential(
             nn.Conv2d(3, 64, kernel_size=7, stride=1, padding=3, bias=False),
@@ -51,8 +62,10 @@ class Generator(nn.Module):
 
 
 class Discriminator(nn.Module):
-    """CNN with linear head"""
+    """Discriminator model based on a CNN with a linear head"""
+
     def __init__(self) -> None:
+        """Init the module."""
         super(Discriminator, self).__init__()
         self.main = nn.Sequential(
             nn.Conv2d(3, 64, kernel_size=4, stride=2, padding=1, bias=False),
