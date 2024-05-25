@@ -62,7 +62,7 @@ class CycleGanDataset(Dataset):
         )
 
     def __len__(self) -> int:
-        return min(len(self.content_images), len(self.style_images))  # TODO try with max
+        return min(len(self.content_images), len(self.style_images))
 
 
 class CycleGanDataModule(LightningDataModule):
