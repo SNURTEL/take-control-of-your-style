@@ -92,7 +92,8 @@ class Discriminator(nn.Module):
 class SemanticRegularization(nn.Module):
     def __init__(self, feature_extractor: nn.Module | None = None, beta_param: float = 1e-2) -> None:
         super().__init__()
-        self.feature_extractor = feature_extractor or models.resnet18(weights=ResNet18_Weights.DEFAULT).eval()
+        self.feature_extractor = feature_extractor or nn.Sequential(
+            *list(models.resnet18(weights=ResNet18_Weights.DEFAULT).children())[:-1]).eval()
         self.beta_param = beta_param
 
     def forward(self, source_batch: Tensor, target_batch: Tensor) -> float:
