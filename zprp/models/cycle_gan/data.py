@@ -35,6 +35,7 @@ class CycleGanDataset(Dataset):
         extensions = [".jpg", ".jpeg", ".png", ".ppm", ".bmp", ".pgm", ".tif", ".tiff", ".webp"]
         self.content_images = [x for x in sorted(content_path.iterdir()) if x.suffix.lower() in extensions]
         self.style_images = [x for x in sorted(style_path.iterdir()) if x.suffix.lower() in extensions]
+
         assert len(
             self.content_images
         ), f"No images found in content dir ({content_path}). Supported extensions are: {', '.join(extensions)}."
@@ -61,6 +62,7 @@ class CycleGanDataset(Dataset):
         )
 
     def __len__(self) -> int:
+        # return 100
         return min(len(self.content_images), len(self.style_images))  # TODO try with max
 
 
