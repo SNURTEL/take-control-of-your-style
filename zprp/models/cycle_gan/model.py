@@ -5,7 +5,6 @@ import torch
 import torch.nn as nn
 from torch import Tensor, optim
 from torchvision.utils import make_grid
-import torch.nn.functional as F
 
 from zprp.models.cycle_gan.components import Discriminator, Generator
 
@@ -44,7 +43,6 @@ class CycleConsistencyLoss(nn.Module):
         return torch.mean(torch.abs(real - reconstructed))
 
 
-# lr=lr, betas=(0.0002, 0.999)
 class CycleGAN(pl.LightningModule):
     """
     A CycleGAN with adjsutable adversarial loss vs cycle consistency loss ratio.
@@ -55,6 +53,8 @@ class CycleGAN(pl.LightningModule):
         self,
         GeneratorClass: type[nn.Module] | None = None,
         DiscriminatorClass: type[nn.Module] | None = None,
+        LSGANLossClass: type[nn.Module] | None = None,
+        CycleConsistencyLossClass: type[nn.Module] | None = None,
         lambda_param: float = 2.0,
         optimizer_kwargs: dict[str, Any] | None = None,
     ) -> None:
@@ -62,9 +62,11 @@ class CycleGAN(pl.LightningModule):
 
         Args:
             GeneratorClass: Generator class to use. If None, defaults to a Unet-like model (check .componens).
-            DiscriminatorClass: Discriminator class to use. If none, defaults to a CNN with a linear head (check .componens).
+            DiscriminatorClass: Discriminator class to use. If None, defaults to a CNN with a linear head (check .componens).
+            LSGANLossClass: Adversarial loss class. In None, defaults to MSE on preds and targets.
+            CycleConsistencyLossClass: Cycle consistency loss class. If None, defaults to the original L1 norm of image difference.
             lambda_param: Factor to scale the cycle loss by. Defaults to 2.0.
-            optimizer_kwargs: Kwargs to pass to the Adam optimizers. If none, uses defaults lr=0.0002 and betas=(0.5, 0.999)
+            optimizer_kwargs: Kwargs to pass to the Adam optimizers. If None, uses defaults lr=0.0002 and betas=(0.5, 0.999)
         """
         super().__init__()
         self.save_hyperparameters()
@@ -82,8 +84,8 @@ class CycleGAN(pl.LightningModule):
         # https://lightning.ai/docs/pytorch/stable/common/optimization.html
         self.automatic_optimization = False
 
-        self.lsgan_loss = LSGANLoss()
-        self.cycle_consistency_loss = CycleConsistencyLoss()
+        self.lsgan_loss = (LSGANLossClass or LSGANLoss)()
+        self.cycle_consistency_loss = (CycleConsistencyLossClass or CycleConsistencyLoss)()
 
         self.lambda_param = lambda_param
 
@@ -214,7 +216,12 @@ class CycleGAN(pl.LightningModule):
             fake_x = self.y_to_x(real_y)
             cycle_y = self.x_to_y(fake_x)
 
-        for image, name in ((fake_y, "cyclegan_fake_y"), (fake_x, "cyclegan_fake_x"), (cycle_x, "cyclegan_cycle_x"), (cycle_y, "cyclegan_cycle_y")):
+        for image, name in (
+            (fake_y, "cyclegan_fake_y"),
+            (fake_x, "cyclegan_fake_x"),
+            (cycle_x, "cyclegan_cycle_x"),
+            (cycle_y, "cyclegan_cycle_y"),
+        ):
             self.logger.experiment.add_image(name, make_grid(self.unnormalize(image)), self.current_epoch)
 
     def x_to_y(self, x: Tensor) -> Tensor:

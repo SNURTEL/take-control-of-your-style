@@ -62,7 +62,6 @@ class CycleGanDataset(Dataset):
         )
 
     def __len__(self) -> int:
-        # return 100
         return min(len(self.content_images), len(self.style_images))  # TODO try with max
 
 
