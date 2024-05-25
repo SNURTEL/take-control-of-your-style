@@ -55,6 +55,7 @@ class CycleGAN(pl.LightningModule):
         DiscriminatorClass: type[nn.Module] | None = None,
         LSGANLossClass: type[nn.Module] | None = None,
         CycleConsistencyLossClass: type[nn.Module] | None = None,
+        RegularizationClass: type[nn.Module] | None = None,
         lambda_param: float = 2.0,
         optimizer_kwargs: dict[str, Any] | None = None,
     ) -> None:
@@ -88,6 +89,8 @@ class CycleGAN(pl.LightningModule):
         self.cycle_consistency_loss = (CycleConsistencyLossClass or CycleConsistencyLoss)()
 
         self.lambda_param = lambda_param
+
+        self.regularization = RegularizationClass() if RegularizationClass else None
 
     def _discriminator_loss(self, real_preds: Tensor, fake_preds: Tensor) -> Tensor:
         """Adversarial loss on real and fake images ([N, C, H, W])
@@ -173,7 +176,9 @@ class CycleGAN(pl.LightningModule):
         cycle_y = self.g(fake_x)
 
         # consistency loss - l1 norm between real and reconstructed images - min l1 error
-        total_cycle_loss = self._cycle_loss(real_x, cycle_x, real_y, cycle_y)
+        total_cycle_loss = self._cycle_loss(real_x, cycle_x, real_y, cycle_y) + (
+            self.regularization(real_x, fake_y) if self.regularization else 0
+        )
 
         # backpropagate generator losses sum adversarial and cycle loss
         total_G_loss = g_loss + total_cycle_loss

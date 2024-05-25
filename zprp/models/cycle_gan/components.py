@@ -1,5 +1,8 @@
 import torch.nn as nn
 from torch import Tensor
+from torch.nn.functional import cosine_similarity
+import torchvision.models as models
+from torchvision.models import ResNet18_Weights
 
 
 class ResidualBlock(nn.Module):
@@ -84,3 +87,16 @@ class Discriminator(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         return self.main(x)  # type: ignore[no-any-return]
+
+
+class SemanticRegularization(nn.Module):
+    def __init__(self, feature_extractor: nn.Module | None = None, beta_param: float = 1e-2) -> None:
+        super().__init__()
+        self.feature_extractor = feature_extractor or models.resnet18(weights=ResNet18_Weights.DEFAULT).eval()
+        self.beta_param = beta_param
+
+    def forward(self, source_batch: Tensor, target_batch: Tensor) -> float:
+        src_features, tgt_features = self.feature_extractor(source_batch), self.feature_extractor(target_batch)
+        avg_similarity = cosine_similarity(src_features, tgt_features, dim=1).view(-1).mean().item()
+        avg_similarity_in_range_0_1 = (avg_similarity + 1) / 2
+        return self.beta_param * (1 - avg_similarity_in_range_0_1)
