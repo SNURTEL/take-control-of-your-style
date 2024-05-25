@@ -238,7 +238,7 @@ class CycleGAN(pl.LightningModule):
         Returns:
             Images transferred to domain Y
         """
-        return self.g(x)
+        return self.g(x)  # type: ignore[no-any-return]
 
     def y_to_x(self, y: Tensor) -> Tensor:
         """Transfer images ([N, C, H, W]) from domain Y to X
@@ -249,7 +249,7 @@ class CycleGAN(pl.LightningModule):
         Returns:
             Images transferred to domain X
         """
-        return self.f(y)
+        return self.f(y)  # type: ignore[no-any-return]
 
     @staticmethod
     def unnormalize(x: Tensor) -> Tensor:

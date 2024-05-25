@@ -66,8 +66,8 @@ class CycleGanDataset(Dataset):
 
 
 class CycleGanDataModule(LightningDataModule):
-    """A LightningDataModule for training style-transfer CycleGANs. Uses CycleGanDataset under the hood.
-    """
+    """A LightningDataModule for training style-transfer CycleGANs. Uses CycleGanDataset under the hood."""
+
     def __init__(
         self,
         content_path: Path | str,
@@ -88,7 +88,9 @@ class CycleGanDataModule(LightningDataModule):
             random_seed: Random seed for shuffling the dataset. If None, do not seed the generator.
         """
         super().__init__()
-        dataset = CycleGanDataset(content_path=content_path, style_path=style_path, img_size=img_size, random_seed=random_seed)
+        dataset = CycleGanDataset(
+            content_path=content_path, style_path=style_path, img_size=img_size, random_seed=random_seed
+        )
 
         generator = Generator()
         if random_seed:

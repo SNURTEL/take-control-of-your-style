@@ -1,7 +1,7 @@
 import torch.nn as nn
+import torchvision.models as models
 from torch import Tensor
 from torch.nn.functional import cosine_similarity
-import torchvision.models as models
 from torchvision.models import ResNet18_Weights
 
 

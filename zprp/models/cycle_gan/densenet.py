@@ -1,7 +1,6 @@
-import torch
 import torch.nn as nn
 from torch import Tensor
-from torchvision.models import densenet121, DenseNet121_Weights
+from torchvision.models import DenseNet121_Weights, densenet121
 
 
 class BinaryDenseNetClassifier(nn.Module):
@@ -14,4 +13,4 @@ class BinaryDenseNetClassifier(nn.Module):
         self.densenet.classifier = fc
 
     def forward(self, x: Tensor) -> Tensor:
-        return self.densenet(x)
+        return self.densenet(x)  # type: ignore[no-any-return]
