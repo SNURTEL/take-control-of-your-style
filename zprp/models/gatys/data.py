@@ -67,4 +67,4 @@ class GatysDataModule(pl.LightningDataModule):
 
     def train_dataloader(self) -> DataLoader:
         """Get the train dataloader"""
-        return DataLoader(self.train, batch_size=1, shuffle=False, num_workers=1, pin_memory=True)
+        return DataLoader(self.train, batch_size=1, shuffle=False, num_workers=4, pin_memory=True, persistent_workers=True)

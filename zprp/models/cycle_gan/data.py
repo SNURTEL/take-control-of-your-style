@@ -101,7 +101,7 @@ class CycleGanDataModule(LightningDataModule):
         self.n_val_images = n_val_images
 
     def train_dataloader(self) -> Any:
-        return DataLoader(self.train, batch_size=self.batch_size, shuffle=True, num_workers=4, pin_memory=True)
+        return DataLoader(self.train, batch_size=self.batch_size, shuffle=True, num_workers=4, pin_memory=True, persistent_workers=True)
 
     def val_dataloader(self) -> Any:
-        return DataLoader(self.val, batch_size=self.n_val_images, shuffle=False, num_workers=4, pin_memory=True)
+        return DataLoader(self.val, batch_size=self.n_val_images, shuffle=False, num_workers=1, pin_memory=True, persistent_workers=True)
