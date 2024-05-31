@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 import os
 import shutil
@@ -13,7 +15,6 @@ from tqdm import tqdm
 
 
 class Experiment(str, Enum):
-    gatys = "gatys"
     lambdas = "lambdas"
     l2 = "l2"
     regularization = "regularization"
@@ -21,12 +22,12 @@ class Experiment(str, Enum):
 
 
 _checkpoints_url_mapping = {
-    Experiment.gatys: "https://fill.this.up",
-    Experiment.lambdas: "https://fill.this.up",
-    Experiment.l2: "https://fill.this.up",
-    Experiment.regularization: "https://fill.this.up",
-    # example
-    Experiment.delete_me: "https://wutwaw-my.sharepoint.com/:u:/g/personal/01169218_pw_edu_pl/EbuMmQBfrrxAriH5mpVkZyAB76Q5Jth7m8HtoZW0jCcqAQ?e=8dduXm&download=1",
+    Experiment.lambdas: "https://wutwaw-my.sharepoint.com/:u:/g/personal/01169263_pw_edu_pl/Ee6eOwEAMWtDnic7e0Vfu1cBK2OCIqurUJg2RgZpzm0hUw?e=lXMJam&download=1",
+    Experiment.l2: "https://wutwaw-my.sharepoint.com/:u:/g/personal/01169263_pw_edu_pl/Eaa8KXroYI9MsbnImxvpP6MBWcUYl622HZPhGgi3_m-rFg?e=aOdte7&download=1",
+    Experiment.regularization: [
+        "https://fill.this.up",
+        "https://wutwaw-my.sharepoint.com/:u:/g/personal/01169263_pw_edu_pl/Ee6eOwEAMWtDnic7e0Vfu1cBK2OCIqurUJg2RgZpzm0hUw?e=lXMJam&download=1",
+    ]
 }
 
 
@@ -34,26 +35,29 @@ def download_experiment_weights(experiment: Experiment) -> Path | None:
     os.makedirs("temp", exist_ok=True)
     out_file = Path(f"temp/{experiment.value}.zip")
 
-    response = requests.get(_checkpoints_url_mapping[experiment], stream=True)
-    total_size = int(response.headers.get("content-length", 0))
-    block_size = 1024
+    mapped = _checkpoints_url_mapping[experiment]
+    urls = mapped if isinstance(mapped, list) else [mapped]  # type: ignore[list-item]
 
-    with tqdm(
-        total=total_size, unit="B", unit_scale=True, desc=f'Download "{experiment.value}" to {out_file}'
-    ) as progress_bar:
-        try:
-            with open(out_file, "wb") as file:
-                for data in response.iter_content(block_size):
-                    progress_bar.update(len(data))
-                    file.write(data)
+    try:
+        for url in urls:
+            response = requests.get(url, stream=True)
+            total_size = int(response.headers.get("content-length", 0))
+            block_size = 1024
+            with tqdm(
+                total=total_size, unit="B", unit_scale=True, desc=f'Download "{experiment.value}" to {out_file}'
+            ) as progress_bar:
+                with open(out_file, "wb") as file:
+                    for data in response.iter_content(block_size):
+                        progress_bar.update(len(data))
+                        file.write(data)
 
-            if total_size != 0 and progress_bar.n != total_size:
-                raise RuntimeError("Could not download file")
-        except KeyboardInterrupt:
-            tqdm.write("Stopping...")
-            out_file.unlink()
-            os.rmdir("temp")
-            return None
+                if total_size != 0 and progress_bar.n != total_size:
+                    raise RuntimeError("Could not download file")
+    except KeyboardInterrupt:
+        print("Stopping...")
+        out_file.unlink()
+        os.rmdir("temp")
+        return None
 
     return out_file
 
