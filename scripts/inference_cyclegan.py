@@ -44,29 +44,12 @@ def inference(model: CycleGAN, image: Tensor) -> Tensor:
 def main() -> None:
     parser = ArgumentParser()
 
-    parser.add_argument(
-        "--model",
-        type=Path,
-        help="Path to the trained model.",
-        required=True
-    )
-    parser.add_argument(
-        "--image",
-        type=Path,
-        help="Path to the input image.",
-        required=True
-    )
-    parser.add_argument(
-        "--output-image",
-        type=Path,
-        help="Path for the output image.",
-        required=True
-    )
+    parser.add_argument("--model", type=Path, help="Path to the trained model.", required=True)
+    parser.add_argument("--image", type=Path, help="Path to the input image.", required=True)
+    parser.add_argument("--output-image", type=Path, help="Path for the output image.", required=True)
 
     args = parser.parse_args()
-    model = CycleGAN.load_from_checkpoint(checkpoint_path=args.model).to(
-        torch.device('cpu')
-    )
+    model = CycleGAN.load_from_checkpoint(checkpoint_path=args.model).to(torch.device("cpu"))
 
     model.eval()
     model.g.eval()

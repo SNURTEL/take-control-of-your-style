@@ -26,11 +26,7 @@ def main() -> None:
 
     parser = ArgumentParser()
     parser.add_argument(
-        "-d",
-        "--dataset",
-        type=str,
-        help="Dataset to fetch from Kaggle",
-        default="balraj98/monet2photo"
+        "-d", "--dataset", type=str, help="Dataset to fetch from Kaggle", default="balraj98/monet2photo"
     )
     args = parser.parse_args()
     dataset = args.dataset
@@ -40,5 +36,5 @@ def main() -> None:
     print("All done!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
