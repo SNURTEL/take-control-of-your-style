@@ -14,7 +14,6 @@ class Experiment(str, Enum):
     lambdas = "lambdas"
     l2 = "l2"
     regularization = "regularization"
-    delete_me = "delete_me"
 
 
 _checkpoints_url_mapping = {
@@ -72,7 +71,7 @@ def main() -> None:
         out_file = Path(f"temp/{experiment.value}.zip")
         target_path = models_dir / out_file.with_suffix("").name
         if target_path.exists():
-            print(f"\"{experiment.value}\" already downloaded to {target_path.absolute()}, skipping")
+            print(f'"{experiment.value}" already downloaded to {target_path.absolute()}, skipping')
             continue
         out_file = download_experiment_zip(experiment, out_file)  # type: ignore[assignment]
         if not out_file:
