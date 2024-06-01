@@ -22,7 +22,7 @@ class Experiment(str, Enum):
 
 _checkpoints_url_mapping = {
     Experiment.gatys: "https://fill.this.up",
-    Experiment.lambdas: "https://fill.this.up",
+    Experiment.lambdas: "https://wutwaw-my.sharepoint.com/:u:/g/personal/01169263_pw_edu_pl/Ee6eOwEAMWtDnic7e0Vfu1cBEQCPV6FXiTm1gGW6r0Zjkg?e=xF8rf2&download=1",
     Experiment.l2: "https://fill.this.up",
     Experiment.regularization: "https://fill.this.up",
     # example

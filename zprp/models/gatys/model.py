@@ -108,6 +108,10 @@ class GatysNSTLoss(nn.Module):
         return super().__call__(content_preds, style_preds)  # type: ignore[no-any-return]
 
 
+ContentWeight = float
+StyleWeight = float
+
+
 class GatysNST(pl.LightningModule):
     """Implementation of the original neural style transfer alghoritm by Gatys et. al.
     https://arxiv.org/abs/1508.06576
@@ -117,7 +121,7 @@ class GatysNST(pl.LightningModule):
         self,
         content_img: torch.Tensor,
         style_img: torch.Tensor,
-        content_style_weights: tuple[float, float] | None = None,
+        content_style_weights: tuple[ContentWeight, StyleWeight] | None = None,
         extractor: FeatureMapExtractor | None = None,
         optimizer_kwargs: dict[str, Any] | None = None,
         log_img_every_n_epochs: int | None = None,
