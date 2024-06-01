@@ -72,6 +72,7 @@ run all experiments like:
 
 - Python >=3.11
 - `conda`
+- `poetry`
 
 #### Install
 
