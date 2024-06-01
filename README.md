@@ -8,6 +8,7 @@ Description goes here.
 
 - Python >=3.11
 - `conda`
+- `poetry`
 
 #### Install
 

@@ -319,3 +319,7 @@ data
 
 # Lighting logs
 *lightning_logs
+
+models
+!models/.gitkeep
+scripts/temp
