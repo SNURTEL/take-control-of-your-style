@@ -26,14 +26,24 @@ _checkpoints_url_mapping = {
 }
 
 
-def download_experiment_zip(experiment: Experiment, out_file: Path) -> Path | None:
+def download_experiment_weights(experiment: Experiment, target_path: Path) -> Path | None:
+    """Download pre-trained models form given experiment as PL checkpoints.
+
+    Args:
+        experiment: Experiment name
+        target_path: Target directory to extract checkpoints
+
+    Returns:
+        Target directory if downloaded successfully, None if stopped.
+    """
     os.makedirs("temp", exist_ok=True)
 
     mapped = _checkpoints_url_mapping[experiment]
     urls = mapped if isinstance(mapped, list) else [mapped]  # type: ignore[list-item]
+    out_files = [Path(f"temp/{experiment.value}_{i}.zip") for i in range(len(urls))]
 
     try:
-        for url in urls:
+        for url, out_file in zip(urls, out_files):
             response = requests.get(url, stream=True)
             total_size = int(response.headers.get("content-length", 0))
             block_size = 1024
@@ -45,15 +55,16 @@ def download_experiment_zip(experiment: Experiment, out_file: Path) -> Path | No
                         progress_bar.update(len(data))
                         file.write(data)
 
-                if total_size != 0 and progress_bar.n != total_size:
-                    raise RuntimeError(f"Could not download {experiment.value}")
+            print(f"Extract {out_file} to {target_path}")
+            shutil.unpack_archive(out_file, target_path)
+            out_file.unlink()
+
     except KeyboardInterrupt:
         print("Stopping...")
         out_file.unlink()
-        os.rmdir("temp")
         return None
 
-    return out_file
+    return target_path
 
 
 def main() -> None:
@@ -68,19 +79,13 @@ def main() -> None:
     to_download = set(args.experiments) if "all" not in args.experiments else experiments
 
     for experiment in [Experiment(v) for v in to_download]:
-        out_file = Path(f"temp/{experiment.value}.zip")
-        target_path = models_dir / out_file.with_suffix("").name
-        if target_path.exists():
+        target_path = models_dir / experiment.value
+        if target_path.exists() and target_path.is_dir() and len(list(target_path.iterdir())) > 0:
             print(f'"{experiment.value}" already downloaded to {target_path.absolute()}, skipping')
             continue
-        out_file = download_experiment_zip(experiment, out_file)  # type: ignore[assignment]
-        if not out_file:
-            break
-        print(f"Extract {out_file} to {target_path}")
-        shutil.unpack_archive(out_file, target_path)
-        out_file.unlink()
+        download_experiment_weights(experiment, target_path)  # type: ignore[assignment]
 
-        print("All done!")
+    print("All done!")
 
 
 if __name__ == "__main__":
