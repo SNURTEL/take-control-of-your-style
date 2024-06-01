@@ -10,6 +10,7 @@ to apply the stylistic elements of one image are applied to the content of anoth
 
 ![img.png](./docs/readme_img/img.png)
 
+## Take control of your style
 One of them main issues is fact images preserved content but don't resemble given style or are significantly styled but
 content is disported. To address this issue we prosed parameter to loss function
 
@@ -22,7 +23,6 @@ It allows us to control how much do we want style image or preserve content
 ![img_1.png](./docs/readme_img/img_1.png)
 
 
-## Take control of your style
 
 One of the main drawback of such approach is need to train new model for each pair of images.
 To tackle this issue we approached implementation of cycleGAN. It aims to perform image-to-image translation tasks 
@@ -56,6 +56,15 @@ complementary part for pixel-wise cycle consistency loss
 Modified loss function 
 
 ![img_7.png](./docs/readme_img/img_7.png)
+
+## Disclaimer and further work
+CycleGAN consists with 2 relatively big generators and 2 discriminators - 4 subnets in total. Training is computationally
+expensive - 1 net trained on 30 epochs with 16 as batch size on RTX 3090 takes about 1h. Due to limited resources we didn't manage to 
+run all experiments like: 
+- quantitative analysis next to qualitative analysis
+- aggregation of multiple run of training and frequency of model collapses 
+- regularization as measure of similarity of fake target image to source image
+- training net like VAE or AdaAttn in standard manner and then fine-tuning as cycleGAN generators
 
 ## Setup
 
