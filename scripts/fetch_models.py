@@ -9,10 +9,6 @@ from pathlib import Path
 import requests
 from tqdm import tqdm
 
-# TODO: zip checkpoints and put them in onedrive
-# Can be downloaded with wget by appending "&download=1" to sharing URL
-# Does not work with directories!
-
 
 class Experiment(str, Enum):
     lambdas = "lambdas"
@@ -25,15 +21,14 @@ _checkpoints_url_mapping = {
     Experiment.lambdas: "https://wutwaw-my.sharepoint.com/:u:/g/personal/01169263_pw_edu_pl/Ee6eOwEAMWtDnic7e0Vfu1cBK2OCIqurUJg2RgZpzm0hUw?e=lXMJam&download=1",
     Experiment.l2: "https://wutwaw-my.sharepoint.com/:u:/g/personal/01169263_pw_edu_pl/Eaa8KXroYI9MsbnImxvpP6MBWcUYl622HZPhGgi3_m-rFg?e=aOdte7&download=1",
     Experiment.regularization: [
-        "https://fill.this.up",
+        "https://wutwaw-my.sharepoint.com/:u:/g/personal/01169263_pw_edu_pl/ERHUIutJRQ5Lu3hfXzHIbHQBhNJ2RRkfCbPaSCSrLEMhzw?e=jMrOnn&download=1",
         "https://wutwaw-my.sharepoint.com/:u:/g/personal/01169263_pw_edu_pl/Ee6eOwEAMWtDnic7e0Vfu1cBK2OCIqurUJg2RgZpzm0hUw?e=lXMJam&download=1",
-    ]
+    ],
 }
 
 
-def download_experiment_weights(experiment: Experiment) -> Path | None:
+def download_experiment_zip(experiment: Experiment, out_file: Path) -> Path | None:
     os.makedirs("temp", exist_ok=True)
-    out_file = Path(f"temp/{experiment.value}.zip")
 
     mapped = _checkpoints_url_mapping[experiment]
     urls = mapped if isinstance(mapped, list) else [mapped]  # type: ignore[list-item]
@@ -52,7 +47,7 @@ def download_experiment_weights(experiment: Experiment) -> Path | None:
                         file.write(data)
 
                 if total_size != 0 and progress_bar.n != total_size:
-                    raise RuntimeError("Could not download file")
+                    raise RuntimeError(f"Could not download {experiment.value}")
     except KeyboardInterrupt:
         print("Stopping...")
         out_file.unlink()
@@ -74,13 +69,17 @@ def main() -> None:
     to_download = set(args.experiments) if "all" not in args.experiments else experiments
 
     for experiment in [Experiment(v) for v in to_download]:
-        temp_path = download_experiment_weights(experiment)
-        if not temp_path:
+        out_file = Path(f"temp/{experiment.value}.zip")
+        target_path = models_dir / out_file.with_suffix("").name
+        if target_path.exists():
+            print(f"\"{experiment.value}\" already downloaded to {target_path.absolute()}, skipping")
+            continue
+        out_file = download_experiment_zip(experiment, out_file)  # type: ignore[assignment]
+        if not out_file:
             break
-        target_path = models_dir / temp_path.with_suffix("").name
-        print(f"Extract {temp_path} to {target_path}")
-        shutil.unpack_archive(temp_path, target_path)
-        temp_path.unlink()
+        print(f"Extract {out_file} to {target_path}")
+        shutil.unpack_archive(out_file, target_path)
+        out_file.unlink()
 
         print("All done!")
 
