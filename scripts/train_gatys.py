@@ -1,11 +1,11 @@
 from argparse import ArgumentParser
 from pathlib import Path
 
-from PIL import Image
 import numpy as np
 import pytorch_lightning as pl
 import torch
 from matplotlib import pyplot as plt
+from PIL import Image
 
 from zprp.models.gatys.data import GatysDataModule
 from zprp.models.gatys.extractor import VGG19FeatureMapExtractor

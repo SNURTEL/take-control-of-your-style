@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytorch_lightning as pl
 import torch
-from torchvision.utils import make_grid
 from matplotlib import pyplot as plt
+from torchvision.utils import make_grid
 
 from zprp.models.cycle_gan.data import CycleGanDataModule
 from zprp.models.cycle_gan.model import CycleGAN
@@ -73,8 +73,8 @@ def train(
         epochs: int = 10
 ):
     dm = CycleGanDataModule(
-        content_path=DATA_PATH / f"trainB/",
-        style_path=DATA_PATH / f"trainA/",
+        content_path=DATA_PATH / "trainB/",
+        style_path=DATA_PATH / "trainA/",
         n_val_images=16,
         batch_size=4,
         img_size=IMG_SIZE
@@ -128,7 +128,7 @@ def main() -> None:
     model, trainer, dm = train(args.lambda_param, args.epochs)
 
     if args.display_images:
-        show_images(model, f"Final images", dm)
+        show_images(model, "Final images", dm)
 
     trainer.save_checkpoint(args.save)
 

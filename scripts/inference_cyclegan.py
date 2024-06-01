@@ -3,8 +3,8 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from torch import Tensor
 from PIL import Image
+from torch import Tensor
 from torchvision import transforms
 
 from zprp.models.cycle_gan.model import CycleGAN
