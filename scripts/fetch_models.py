@@ -9,17 +9,11 @@ from pathlib import Path
 import requests
 from tqdm import tqdm
 
-# TODO: zip checkpoints and put them in onedrive
-# Can be downloaded with wget by appending "&download=1" to sharing URL
-# Does not work with directories!
-
 
 class Experiment(str, Enum):
-    gatys = "gatys"
     lambdas = "lambdas"
     l2 = "l2"
     regularization = "regularization"
-    delete_me = "delete_me"
 
 
 _checkpoints_url_mapping = {

@@ -7,7 +7,15 @@ from PIL import Image
 from torch import Tensor
 from torchvision import transforms
 
+from zprp.models.cycle_gan.components import SemanticRegularization
 from zprp.models.cycle_gan.model import CycleGAN
+
+beta_param = 0
+
+
+class TestSemanticRegularization(SemanticRegularization):
+    def __init__(self) -> None:
+        super().__init__(beta_param=beta_param)
 
 
 def load_image(path: Path) -> Tensor:
