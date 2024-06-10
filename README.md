@@ -45,10 +45,11 @@ given style or are significantly styled but content is disported. To address
 this issue we prosed parameter to loss function
 
 ```math
-\mathcal{L}_{total} = \alpha \mathcal{L}_{content} + \beta \mathcal{L}_{style}
+\mathcal{L}_{total} = \mathcal{L}_{content} + \beta \mathcal{L}_{style}
 ```
 
-It allows us to control how much do we want style image or preserve content
+Beta is responsible for ration  of importance of losses. It allows us to control how much do we want style image 
+or preserve content.
 
 ![img_1.png](./docs/readme_img/img_1.png)
 
